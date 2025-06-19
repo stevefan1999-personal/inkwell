@@ -1,7 +1,7 @@
 use std::ffi::CStr;
 use std::fmt;
 
-use crate::support::{LLVMString, LLVMStringOrRaw};
+use crate::support::{LLVMString, LLVMStringOrRaw, to_c_str};
 
 #[derive(Eq)]
 pub struct DataLayout {
@@ -22,6 +22,15 @@ impl DataLayout {
 
         DataLayout {
             data_layout: LLVMStringOrRaw::Borrowed(data_layout),
+        }
+    }
+
+    // Add public create method like TargetTriple
+    pub fn create(data_layout: &str) -> DataLayout {
+        let c_string = to_c_str(data_layout);
+        
+        DataLayout {
+            data_layout: LLVMStringOrRaw::Owned(LLVMString::create_from_c_str(&c_string)),
         }
     }
 
