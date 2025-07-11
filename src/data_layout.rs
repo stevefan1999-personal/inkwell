@@ -25,7 +25,6 @@ impl DataLayout {
         }
     }
 
-    // Add public create method like TargetTriple
     pub fn create(data_layout: &str) -> DataLayout {
         let c_string = to_c_str(data_layout);
         
